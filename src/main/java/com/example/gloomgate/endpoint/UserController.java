@@ -1,6 +1,7 @@
 package com.example.gloomgate.endpoint;
 
 import com.example.gloomgate.entity.User;
+import com.example.gloomgate.security.JwtUtil;
 import com.example.gloomgate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +19,12 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/register")
@@ -45,6 +48,8 @@ public class UserController {
                     .body(Map.of("message", "Invalid password.", "error", "Authentication Error"));
         }
 
-        return ResponseEntity.ok(Map.of("message", "Authentication successful"));
+        String token = jwtUtil.generateToken(user.getUsername());
+
+        return ResponseEntity.ok(Map.of("message", "Authentication successful", "token", token));
     }
 }
