@@ -1,6 +1,7 @@
 package com.example.gloomgate.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class User {
@@ -8,6 +9,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
+    @Size(min = 4, max = 14, message = "Username must be between 4 and 14 characters long")
     private String username;
     private String password;
 
