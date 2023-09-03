@@ -1,10 +1,10 @@
-package com.example.gloomgate2;
+package com.example.gloomgate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GloomGate2ApplicationTests {
+class GloomGateApplicationTests {
 
     @Test
     void contextLoads() {

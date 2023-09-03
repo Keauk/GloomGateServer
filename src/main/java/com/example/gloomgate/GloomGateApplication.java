@@ -1,4 +1,4 @@
-package com.example.gloomgate2;
+package com.example.gloomgate;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
