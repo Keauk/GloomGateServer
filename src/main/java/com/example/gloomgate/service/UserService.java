@@ -10,6 +10,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.springframework.stereotype.Service;
 import jakarta.validation.Validator;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -43,6 +44,10 @@ public class UserService {
         }
 
         return userRepository.save(user);
+    }
+
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public boolean checkPassword(User user, String rawPassword) {
