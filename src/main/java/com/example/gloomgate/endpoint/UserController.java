@@ -6,10 +6,7 @@ import com.example.gloomgate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Optional;
@@ -28,22 +25,22 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestParam String username, @RequestParam String password) {
-        User newUser = userService.registerNewUser(username, password);
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        User newUser = userService.registerNewUser(user.getUsername(), user.getPassword());
         return ResponseEntity.ok(newUser);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestParam String username, @RequestParam String password) {
-        Optional<User> userOptional = userService.findByUsername(username);
+    public ResponseEntity<?> authenticateUser(@RequestBody User user) {
+        Optional<User> userOptional = userService.findByUsername(user.getUsername());
 
         if (userOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("message", "Username not found.", "error", "Authentication Error"));
         }
 
-        User user = userOptional.get();
-        if (!userService.checkPassword(user, password)) {
+        User loggedInUser = userOptional.get();
+        if (!userService.checkPassword(loggedInUser, user.getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("message", "Invalid password.", "error", "Authentication Error"));
         }
